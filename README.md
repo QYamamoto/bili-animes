@@ -3,7 +3,8 @@
 ### 环境配置
 
 1. 安装Python
-2. pip install requests
+2. pip install sqlalchemy
+3. pip install requests
 
 ### 运行
 
