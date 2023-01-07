@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Text, create_engine, SmallInteger, String
+from sqlalchemy import Column, Integer, Text, create_engine, SmallInteger, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -98,7 +98,7 @@ class Anime(Model):
     media_id = Column(Integer, primary_key=True)
     chinese = Column(SmallInteger)
     title = Column(Text)
-    score = Column(String(4))
+    score = Column(Float)
 
     @property
     def short(self):

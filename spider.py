@@ -48,11 +48,13 @@ def get_animes():
 def get_page(page, chinese):
     tasks = []
     for anime in page:
+        if not anime['score']:
+            continue
         tasks.append(Thread(target=get_anime, args=(Anime(
             media_id=anime['media_id'],
             chinese=chinese,
             title=anime['title'],
-            score=anime['score']
+            score=float(anime['score'])
         ), )))
         tasks[-1].start()
     for task in tasks:

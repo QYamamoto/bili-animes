@@ -9,7 +9,7 @@
 
 先获取全部番剧:  
 ```bash
-$ python3 acquire.py
+$ python3 spider.py
 ```
 
 然后启动pythonshell:  
