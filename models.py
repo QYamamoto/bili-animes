@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Text, create_engine, SmallInteger
+from sqlalchemy import Column, Integer, Text, create_engine, SmallInteger, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -11,7 +11,7 @@ def average(v):
     return sum(accumulate(v[:0:-1])) * 2 / total
 
 Model = declarative_base()
-engine = create_engine('sqlite:///result.db')
+engine = create_engine('sqlite:///result.db?check_same_thread=False')
 
 class Zero(Model):
     __tablename__ = 'zero'
@@ -28,9 +28,10 @@ class Zero(Model):
 
     def __str__(self):
         return '''动画名: {anime}
+动画ID: {media_id}
 用户名: {name}
 UID: {uid}
-内容: {content}'''.format(anime=self.anime.name, **vars(self))
+内容: {content}'''.format(anime=self.anime.title, **vars(self))
 
     def __repr__(self):
         return self.__str__()
@@ -97,6 +98,7 @@ class Anime(Model):
     media_id = Column(Integer, primary_key=True)
     chinese = Column(SmallInteger)
     title = Column(Text)
+    score = Column(String(4))
 
     @property
     def short(self):
@@ -125,13 +127,26 @@ class Anime(Model):
     def __str__(self):
         return '''{} {}
 ID: {}
-平均分: {}
+分数: {}
+实际分数: {}
 人数: {}
 {}
-{}'''.format('国创' if self.chinese else '番剧', self.title, self.media_id, self.average, self.total, self.short, self.long)
+{}'''.format(
+        '国创' if self.chinese else '番剧',
+        self.title,
+        self.media_id,
+        self.score,
+        self.average,
+        self.total,
+        self.short,
+        self.long
+    )
 
     def __repr__(self):
         return self.__str__()
+
+def get_session():
+    return sessionmaker(bind=engine)()
 
 Model.metadata.create_all(engine)
 session = sessionmaker(bind=engine)()
