@@ -8,12 +8,19 @@
 
 ### 运行
 
-先获取全部番剧:  
+获取全部番剧:  
 ```bash
 $ python3 spider.py
 ```
 
-然后启动pythonshell:  
+输出为csv:
+```bash
+$ python3 tocsv.py
+```
+
+### 查询
+
+启动pyshell:  
 ```bash
 $ python3
 ```
@@ -22,4 +29,15 @@ $ python3
 >>> from models import *
 ```
 
-接下来就可以查询了
+然后就可以查询了, 比如要查询标题含有"三体"的动画:
+
+```python
+>>> session.query(Anime).filter(Anime.title.like('%三体%')).all()
+[国创 三体
+...
+国创 我的三体
+...]
+...
+```
+
+#### 项目中已有的result.db和result.csv是2023/1/7的数据, 不一定一直有效
